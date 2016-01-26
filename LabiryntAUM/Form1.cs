@@ -44,7 +44,7 @@ namespace LabiryntAUM
             string lina;
 
             System.IO.StreamReader file =
-                new System.IO.StreamReader(@"D:\projekty\Labirynt AUM\mazeData4x4.txt");
+                new System.IO.StreamReader(@"mazeData4x4.txt");
             while ((lina = file.ReadLine()) != null)
             {
                  dane.Add(lina);
