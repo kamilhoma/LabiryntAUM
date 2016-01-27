@@ -139,7 +139,7 @@ namespace LabiryntAUM
             rysujWyjscie(5, 7, 0); // prawo
             rysujWyjscie(6, 7, 0); // prawo
             rysujWyjscie(7, 7, 0); // prawo
-            rysujWyjscie(6, 6, 1); // test
+            //rysujWyjscie(0, 0, 1); // test: (x/2,y/2), pkty z listy danych
 
         }
 
