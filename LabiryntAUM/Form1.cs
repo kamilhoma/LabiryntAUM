@@ -84,6 +84,9 @@ namespace LabiryntAUM
             drawArea.DrawLine(pen, skaluj(0), skaluj(0), skaluj(0), skaluj(ymax+1));
             drawArea.DrawLine(pen, skaluj(xmax+1), skaluj(ymax+1), skaluj(xmax+1), skaluj(0));
             drawArea.DrawLine(pen, skaluj(xmax + 1), skaluj(ymax + 1), skaluj(0), skaluj(ymax+1));
+
+            drawArea.DrawLine(pen2, skaluj(0), skaluj(0), skaluj(1), skaluj(0));
+            drawArea.DrawLine(pen2, skaluj(xmax+1), skaluj(ymax), skaluj(xmax+1), skaluj(ymax+1));
         }
 
         public float skaluj(float x)
@@ -102,7 +105,7 @@ namespace LabiryntAUM
                 //Debug.WriteLine(item.ToString());
             }
 
-            bool czyMoge = true;
+            bool czyMoge = false;
 
         }
 
