@@ -35,7 +35,7 @@ namespace LabiryntAUM
 
         private void btn_przejdz_Click(object sender, EventArgs e)
         {
-            lecimy(czytajDane());
+            lecimy();
         }
 
         public List<string> czytajDane()
@@ -54,39 +54,53 @@ namespace LabiryntAUM
             return dane;
 
         }
+        List<string> listaScian = new List<string>();
 
         #region rysuj
-        public void rysuj(int x, int y, int instrukcja, List<string> dane)
+        public List<string> rysuj(int x, int y, int instrukcja, List<string> dane)
         {
+            
             string last = dane.Last().ToString();
             var spl = last.Split(' ');
             int xmax = Int32.Parse(spl[0].ToString());
             int ymax = Int32.Parse(spl[1].ToString());
 
-            Pen pen = new Pen(Color.Black);
-            Pen pen2 = new Pen(Color.Red);
+            Pen penBlack = new Pen(Color.Black);
+            Pen penRed = new Pen(Color.Red);
             switch (instrukcja)
             {
                 case 0:
-                    drawArea.DrawLine(pen, skaluj(x), skaluj(y), skaluj(x), skaluj(y+1));
-                    drawArea.DrawLine(pen, skaluj(x), skaluj(y), skaluj(x+1), skaluj(y));
+                    drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x), skaluj(y+1));
+                    listaScian.Add(x + "," + y + "," + x + "," + ((int)(y + 1)).ToString());
+                    drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x+1), skaluj(y));
+                    listaScian.Add(x + "," + y + "," + ((int)(x + 1)).ToString() + "," + y);
                     break;
                 case 1:
-                    drawArea.DrawLine(pen, skaluj(x), skaluj(y), skaluj(x), skaluj(y+1));
+                    drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x), skaluj(y+1));
+                    listaScian.Add(x + "," + y + "," + x + "," + ((int)(y + 1)).ToString());
                     break;
                 case 2:
-                    drawArea.DrawLine(pen, skaluj(x), skaluj(y), skaluj(x+1), skaluj(y));
+                    drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x+1), skaluj(y));
+                    listaScian.Add(x + "," + y + "," + ((int)(x + 1)).ToString() + "," + y);
                     break;
                 case 3:
                     break;
             }
-            drawArea.DrawLine(pen, skaluj(0), skaluj(0), skaluj(xmax+1), skaluj(0));
-            drawArea.DrawLine(pen, skaluj(0), skaluj(0), skaluj(0), skaluj(ymax+1));
-            drawArea.DrawLine(pen, skaluj(xmax+1), skaluj(ymax+1), skaluj(xmax+1), skaluj(0));
-            drawArea.DrawLine(pen, skaluj(xmax + 1), skaluj(ymax + 1), skaluj(0), skaluj(ymax+1));
+            drawArea.DrawLine(penBlack, skaluj(0), skaluj(0), skaluj(xmax+1), skaluj(0));
+            drawArea.DrawLine(penBlack, skaluj(0), skaluj(0), skaluj(0), skaluj(ymax+1));
+            drawArea.DrawLine(penBlack, skaluj(xmax+1), skaluj(ymax+1), skaluj(xmax+1), skaluj(0));
+            drawArea.DrawLine(penBlack, skaluj(xmax + 1), skaluj(ymax + 1), skaluj(0), skaluj(ymax+1));
 
-            drawArea.DrawLine(pen2, skaluj(0), skaluj(0), skaluj(1), skaluj(0));
-            drawArea.DrawLine(pen2, skaluj(xmax+1), skaluj(ymax), skaluj(xmax+1), skaluj(ymax+1));
+            drawArea.DrawLine(penRed, skaluj(0), skaluj(0), skaluj(0), skaluj(1));
+            drawArea.DrawLine(penRed, skaluj(xmax+1), skaluj(ymax), skaluj(xmax+1), skaluj(ymax+1));
+
+            foreach (var item in listaScian)
+            {
+                //Debug.WriteLine(item.ToString());
+            }
+
+            return listaScian;
+            
         }
 
         public float skaluj(float x)
@@ -95,18 +109,103 @@ namespace LabiryntAUM
             x = x * s;
             return x;
         }
+
+        public float skaluj2(float x)
+        {
+            int s = 38;
+            x = (x * s) / 2;
+            return x;
+        }
         #endregion
 
         #region przejdz
-        public void lecimy(List<string> dane)
+        public void lecimy()
         {
-            foreach (var item in dane)
+            rysujWyjscie(0, 1, 0); // prawo
+            rysujWyjscie(1, 1, 0); // prawo
+            rysujWyjscie(2, 1, 0); // prawo
+            rysujWyjscie(3, 1, 1); // dol
+            rysujWyjscie(3, 2, 1); // dol
+            rysujWyjscie(3, 3, 2); // lewo
+            rysujWyjscie(2, 3, 2); // lewo
+            rysujWyjscie(1, 3, 1); // dol 
+            rysujWyjscie(1, 4, 1); // dol
+            rysujWyjscie(1, 5, 1); // dol
+            rysujWyjscie(1, 6, 1); // dol
+            rysujWyjscie(1, 7, 0); // prawo
+            rysujWyjscie(2, 7, 0); // prawo
+            rysujWyjscie(3, 7, 0); // prawo
+            rysujWyjscie(4, 7, 0); // prawo
+            rysujWyjscie(5, 7, 0); // prawo
+            rysujWyjscie(6, 7, 0); // prawo
+            rysujWyjscie(7, 7, 0); // prawo
+            rysujWyjscie(6, 6, 1); // test
+
+        }
+
+        public void rysujWyjscie(float x, float y, int ruch)
+        {
+            czySciana(x, y, czytajDane());
+            Pen penGreen = new Pen(Color.Green);
+            Pen penRed = new Pen(Color.Red);
+            switch (ruch)
             {
-                //Debug.WriteLine(item.ToString());
+                case 0: // w prawo
+                    drawArea.DrawLine(penGreen, skaluj2(x), skaluj2(y), skaluj2(x + 1), skaluj2(y));
+                    break;
+                case 1: // w dol
+                    drawArea.DrawLine(penGreen, skaluj2(x), skaluj2(y), skaluj2(x), skaluj2(y + 1));
+                    break;
+                case 2: // w lewo
+                    drawArea.DrawLine(penGreen, skaluj2(x), skaluj2(y), skaluj2(x-1), skaluj2(y));
+                    break;
+                case 3: // w gore
+                    drawArea.DrawLine(penGreen, skaluj2(x), skaluj2(y), skaluj2(x), skaluj2(y - 1));
+                    break;
             }
+        }
 
-            bool czyMoge = false;
+        public void czySciana(float x, float y, List<string> ls)
+        {
+            
+                x /= 2;
+                y /= 2;
+                string s = x.ToString() + " " + y.ToString();
+                foreach (var item in ls)
+                {
+                    var spl = item.Split(' ');
+                    int wx = Int32.Parse(spl[0].ToString());
+                    int wy = Int32.Parse(spl[1].ToString());
+                    if (wx == x && wy == y)
+                        MessageBox.Show("");
+                }
+            
+            //x *= 2;
+            //y *= 2;
 
+            //string s = "";
+            //switch (ruch)
+            //{
+            //    case 0: // w prawo
+            //        s = x.ToString() + "," + y.ToString() + "," + ((int)(x + 1)).ToString() + "," + y.ToString();
+            //        break;
+            //    case 1: // w dol
+            //        s = x.ToString() + "," + y.ToString() + "," + x.ToString() + "," + ((int)(y + 1)).ToString();
+            //        break;
+            //    case 2: // w lewo
+            //        s = x.ToString() + "," + y.ToString() + "," + ((int)(x - 1)).ToString() + "," + y.ToString();
+            //        break;
+            //    case 3: // w gore
+            //        s = x.ToString() + "," + y.ToString() + "," + x.ToString() + "," + ((int)(y - 1)).ToString();
+            //        break;
+            //}
+
+            //foreach (var item in ls)
+            //{
+            //    Debug.WriteLine(item);
+            //    if (s == item)
+            //        MessageBox.Show("");
+            //}
         }
 
         #endregion
