@@ -44,7 +44,7 @@ namespace LabiryntAUM
             string lina;
 
             System.IO.StreamReader file =
-                new System.IO.StreamReader(@"mazeData4x4.txt");
+                new System.IO.StreamReader(@"mazeData16x16.txt");
             while ((lina = file.ReadLine()) != null)
             {
                  dane.Add(lina);
@@ -121,25 +121,26 @@ namespace LabiryntAUM
         #region przejdz
         public void lecimy()
         {
-            rysujWyjscie(0, 1, 0); // prawo
-            rysujWyjscie(1, 1, 0); // prawo
-            rysujWyjscie(2, 1, 0); // prawo
-            rysujWyjscie(3, 1, 1); // dol
-            rysujWyjscie(3, 2, 1); // dol
-            rysujWyjscie(3, 3, 2); // lewo
-            rysujWyjscie(2, 3, 2); // lewo
-            rysujWyjscie(1, 3, 1); // dol 
-            rysujWyjscie(1, 4, 1); // dol
-            rysujWyjscie(1, 5, 1); // dol
-            rysujWyjscie(1, 6, 1); // dol
-            rysujWyjscie(1, 7, 0); // prawo
-            rysujWyjscie(2, 7, 0); // prawo
-            rysujWyjscie(3, 7, 0); // prawo
-            rysujWyjscie(4, 7, 0); // prawo
-            rysujWyjscie(5, 7, 0); // prawo
-            rysujWyjscie(6, 7, 0); // prawo
-            rysujWyjscie(7, 7, 0); // prawo
-            //rysujWyjscie(0, 0, 1); // test: (x/2,y/2), pkty z listy danych
+            //rysujWyjscie(0, 1, 0); // prawo
+            //rysujWyjscie(1, 1, 0); // prawo
+            //rysujWyjscie(2, 1, 0); // prawo
+            //rysujWyjscie(3, 1, 1); // dol
+            //rysujWyjscie(3, 2, 1); // dol
+            //rysujWyjscie(3, 3, 2); // lewo
+            //rysujWyjscie(2, 3, 2); // lewo
+            //rysujWyjscie(1, 3, 1); // dol 
+            //rysujWyjscie(1, 4, 1); // dol
+            //rysujWyjscie(1, 5, 1); // dol
+            //rysujWyjscie(1, 6, 1); // dol
+            //rysujWyjscie(1, 7, 0); // prawo
+            //rysujWyjscie(2, 7, 0); // prawo
+            //rysujWyjscie(3, 7, 0); // prawo
+            //rysujWyjscie(4, 7, 0); // prawo
+            //rysujWyjscie(5, 7, 0); // prawo
+            //rysujWyjscie(6, 7, 0); // prawo
+            //rysujWyjscie(7, 7, 0); // prawo
+            rysujWyjscie(3, 15, 2); // test
+            rysujWyjscie(2, 15, 1); // test
 
         }
 
@@ -167,19 +168,29 @@ namespace LabiryntAUM
 
         public void czySciana(float x, float y, List<string> ls)
         {
-            
-                x /= 2;
-                y /= 2;
-                string s = x.ToString() + " " + y.ToString();
-                foreach (var item in ls)
-                {
-                    var spl = item.Split(' ');
-                    int wx = Int32.Parse(spl[0].ToString());
-                    int wy = Int32.Parse(spl[1].ToString());
-                    if (wx == x && wy == y)
-                        MessageBox.Show("");
-                }
-            
+
+            x /= 2;
+            y /= 2;
+            List<string> ls2 = new List<string>();
+            foreach (var item in ls)
+            {
+                var spl = item.Split(' ');
+                float wx = float.Parse(spl[0].ToString());
+                float wy = float.Parse(spl[1].ToString());
+                ls2.Add((wx / 2).ToString() + " " + (wy / 2).ToString());
+                
+            }
+
+            foreach (var item in ls)
+            {
+                Debug.WriteLine(item);
+                var spl = item.Split(' ');
+                float wx = float.Parse(spl[0].ToString());
+                float wy = float.Parse(spl[1].ToString());
+                if (wx == x && wy == y)
+                    MessageBox.Show("");
+            }
+
             //x *= 2;
             //y *= 2;
 
