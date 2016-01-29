@@ -67,6 +67,7 @@ namespace LabiryntAUM
 
             Pen penBlack = new Pen(Color.Black);
             Pen penRed = new Pen(Color.Red);
+            
             switch (instrukcja)
             {
                 case 0:
@@ -121,10 +122,13 @@ namespace LabiryntAUM
         #region przejdz
         public void lecimy(int x, int y, int r)
         {
+            int pdx = x;
+            int pdy = y;
             int poprzedniRuch = r;
             while (!czySciana(x, y, listaScian))
             {
                 rysujWyjscie(x, y, r);
+                
                 switch (r)
                 {
                     case 0:
@@ -143,24 +147,24 @@ namespace LabiryntAUM
                         break;
                 }
             }
-
             switch (poprzedniRuch)
             {
                 case 0:
-                    lecimy(x-1, y, 1);
+                    lecimy(x - 1, y, 1);
                     break;
                 case 1:
-                    lecimy(x, y-1, 2);
+                    lecimy(x, y - 1, 2);
                     break;
                 case 2:
-                    lecimy(x+1, y, 3);
+                    lecimy(x + 1, y, 3);
                     break;
                 case 3:
-                    lecimy(x, y+1, 0);
+                    lecimy(x, y + 1, 0);
                     break;
                 default:
                     break;
             }
+
 
 
             //rysujWyjscie(0, 1, 0); // prawo
@@ -192,6 +196,7 @@ namespace LabiryntAUM
             //czySciana(x, y, listaScian);
             Pen penGreen = new Pen(Color.Green);
             Pen penRed = new Pen(Color.Red);
+            drawArea.DrawLine(penGreen, skaluj2(0), skaluj2(1), skaluj2(1), skaluj2(1));
             switch (ruch)
             {
                 case 0: // w prawo
