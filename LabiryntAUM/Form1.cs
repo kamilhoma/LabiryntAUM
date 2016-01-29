@@ -44,7 +44,7 @@ namespace LabiryntAUM
             string lina;
 
             System.IO.StreamReader file =
-                new System.IO.StreamReader(@"mazeData16x16.txt");
+                new System.IO.StreamReader(@"mazeData4x4.txt");
             while ((lina = file.ReadLine()) != null)
             {
                  dane.Add(lina);
@@ -94,10 +94,10 @@ namespace LabiryntAUM
             drawArea.DrawLine(penRed, skaluj(0), skaluj(0), skaluj(0), skaluj(1));
             drawArea.DrawLine(penRed, skaluj(xmax+1), skaluj(ymax), skaluj(xmax+1), skaluj(ymax+1));
 
-            foreach (var item in listaScian)
-            {
-                //Debug.WriteLine(item.ToString());
-            }
+            //foreach (var item in listaScian)
+            //{
+            //    Debug.WriteLine(item.ToString());
+            //}
 
             return listaScian;
             
@@ -122,31 +122,32 @@ namespace LabiryntAUM
         public void lecimy()
         {
             //rysujWyjscie(0, 1, 0); // prawo
-            //rysujWyjscie(1, 1, 0); // prawo
-            //rysujWyjscie(2, 1, 0); // prawo
-            //rysujWyjscie(3, 1, 1); // dol
-            //rysujWyjscie(3, 2, 1); // dol
-            //rysujWyjscie(3, 3, 2); // lewo
-            //rysujWyjscie(2, 3, 2); // lewo
-            //rysujWyjscie(1, 3, 1); // dol 
-            //rysujWyjscie(1, 4, 1); // dol
-            //rysujWyjscie(1, 5, 1); // dol
-            //rysujWyjscie(1, 6, 1); // dol
-            //rysujWyjscie(1, 7, 0); // prawo
-            //rysujWyjscie(2, 7, 0); // prawo
-            //rysujWyjscie(3, 7, 0); // prawo
-            //rysujWyjscie(4, 7, 0); // prawo
-            //rysujWyjscie(5, 7, 0); // prawo
-            //rysujWyjscie(6, 7, 0); // prawo
-            //rysujWyjscie(7, 7, 0); // prawo
-            rysujWyjscie(3, 15, 2); // test
-            rysujWyjscie(2, 15, 1); // test
+            rysujWyjscie(1, 1, 0); // prawo
+            rysujWyjscie(2, 1, 0); // prawo
+            rysujWyjscie(3, 1, 1); // dol
+            rysujWyjscie(3, 2, 1); // dol
+            rysujWyjscie(3, 3, 2); // lewo
+            rysujWyjscie(2, 3, 2); // lewo
+            rysujWyjscie(1, 3, 1); // dol 
+            rysujWyjscie(1, 4, 1); // dol
+            rysujWyjscie(1, 5, 1); // dol
+            rysujWyjscie(1, 6, 1); // dol
+            rysujWyjscie(1, 7, 0); // prawo
+            rysujWyjscie(2, 7, 0); // prawo
+            rysujWyjscie(3, 7, 0); // prawo
+            rysujWyjscie(4, 7, 0); // prawo
+            rysujWyjscie(5, 7, 0); // prawo
+            rysujWyjscie(6, 7, 0); // prawo
+            rysujWyjscie(7, 7, 0); // prawo
+            rysujWyjscie(7, 6, 1); // test
+            //rysujWyjscie(3, 16, 2); // test
+            //rysujWyjscie(2, 16, 1); // test
 
         }
 
         public void rysujWyjscie(float x, float y, int ruch)
         {
-            czySciana(x, y, czytajDane());
+            czySciana(x, y, listaScian);
             Pen penGreen = new Pen(Color.Green);
             Pen penRed = new Pen(Color.Red);
             switch (ruch)
@@ -168,55 +169,41 @@ namespace LabiryntAUM
 
         public void czySciana(float x, float y, List<string> ls)
         {
-
-            x /= 2;
-            y /= 2;
             List<string> ls2 = new List<string>();
             foreach (var item in ls)
             {
-                var spl = item.Split(' ');
-                float wx = float.Parse(spl[0].ToString());
-                float wy = float.Parse(spl[1].ToString());
-                ls2.Add((wx / 2).ToString() + " " + (wy / 2).ToString());
-                
+                var spl = item.Split(',');
+                float wx1 = float.Parse(spl[0].ToString());
+                float wy1 = float.Parse(spl[1].ToString());
+                float wx2 = float.Parse(spl[2].ToString());
+                float wy2 = float.Parse(spl[3].ToString());
+                ls2.Add((wx1 * 2).ToString() + " " + (wy1 * 2).ToString() + " " + (wx2 * 2).ToString() + " " + (wy2 * 2).ToString());
+                //ls2.Add((wx1).ToString() + " " + (wy1 +1).ToString());
+                //ls2.Add((wx1).ToString() + " " + (wy1-1).ToString() + " " + (wx2).ToString() + " " + (wy2-1).ToString());
+                //ls2.Add((wx1-1).ToString() + " " + (wy1).ToString() + " " + (wx2-1).ToString() + " " + (wy2).ToString());
             }
-
-            foreach (var item in ls)
+            foreach (var item in ls2)
             {
                 Debug.WriteLine(item);
-                var spl = item.Split(' ');
-                float wx = float.Parse(spl[0].ToString());
-                float wy = float.Parse(spl[1].ToString());
-                if (wx == x && wy == y)
-                    MessageBox.Show("");
             }
 
-            //x *= 2;
-            //y *= 2;
+            foreach (var item in ls2)
+            {
+                var spl = item.Split(' ');
+                float wx1 = float.Parse(spl[0].ToString());
+                float wy1 = float.Parse(spl[1].ToString());
+                float wx2 = float.Parse(spl[2].ToString());
+                float wy2 = float.Parse(spl[3].ToString());
+                if ((x == wx1 && y == wy1) || (x == wx2 && y == wy2))
+                    MessageBox.Show("");
+                if(wx1 != wx2)
+                    if (x == (wx2- 1) && y == wy1)
+                        MessageBox.Show("");
+                if (wy1 != wy2)
+                    if (x == wx1 && y == (wy2 - 1))
+                        MessageBox.Show("");
+            }
 
-            //string s = "";
-            //switch (ruch)
-            //{
-            //    case 0: // w prawo
-            //        s = x.ToString() + "," + y.ToString() + "," + ((int)(x + 1)).ToString() + "," + y.ToString();
-            //        break;
-            //    case 1: // w dol
-            //        s = x.ToString() + "," + y.ToString() + "," + x.ToString() + "," + ((int)(y + 1)).ToString();
-            //        break;
-            //    case 2: // w lewo
-            //        s = x.ToString() + "," + y.ToString() + "," + ((int)(x - 1)).ToString() + "," + y.ToString();
-            //        break;
-            //    case 3: // w gore
-            //        s = x.ToString() + "," + y.ToString() + "," + x.ToString() + "," + ((int)(y - 1)).ToString();
-            //        break;
-            //}
-
-            //foreach (var item in ls)
-            //{
-            //    Debug.WriteLine(item);
-            //    if (s == item)
-            //        MessageBox.Show("");
-            //}
         }
 
         #endregion
