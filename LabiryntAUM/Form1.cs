@@ -122,8 +122,6 @@ namespace LabiryntAUM
         #region przejdz
         public void lecimy(int x, int y, int r)
         {
-            int pdx = x;
-            int pdy = y;
             int poprzedniRuch = r;
             while (!czySciana(x, y, listaScian))
             {
@@ -147,6 +145,7 @@ namespace LabiryntAUM
                         break;
                 }
             }
+
             switch (poprzedniRuch)
             {
                 case 0:
