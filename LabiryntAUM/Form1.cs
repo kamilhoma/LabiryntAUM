@@ -121,7 +121,8 @@ namespace LabiryntAUM
         #region przejdz
         public void lecimy(int x, int y, int r)
         {
-            while (czySciana(x, y, listaScian))
+            int poprzedniRuch = r;
+            while (!czySciana(x, y, listaScian))
             {
                 rysujWyjscie(x, y, r);
                 switch (r)
@@ -130,7 +131,7 @@ namespace LabiryntAUM
                         x += 1;
                         break;
                     case 1:
-                        y += 1;
+                        y += 1;   
                         break;
                     case 2:
                         x -= 1;
@@ -142,7 +143,24 @@ namespace LabiryntAUM
                         break;
                 }
             }
-            
+
+            switch (poprzedniRuch)
+            {
+                case 0:
+                    lecimy(x-1, y, 1);
+                    break;
+                case 1:
+                    lecimy(x, y-1, 2);
+                    break;
+                case 2:
+                    lecimy(x+1, y, 3);
+                    break;
+                case 3:
+                    lecimy(x, y+1, 0);
+                    break;
+                default:
+                    break;
+            }
 
 
             //rysujWyjscie(0, 1, 0); // prawo
@@ -206,11 +224,7 @@ namespace LabiryntAUM
                 //ls2.Add((wx1).ToString() + " " + (wy1-1).ToString() + " " + (wx2).ToString() + " " + (wy2-1).ToString());
                 //ls2.Add((wx1-1).ToString() + " " + (wy1).ToString() + " " + (wx2-1).ToString() + " " + (wy2).ToString());
             }
-            foreach (var item in ls2)
-            {
-                Debug.WriteLine(item);
-            }
-
+            
             foreach (var item in ls2)
             {
                 var spl = item.Split(' ');
@@ -220,27 +234,24 @@ namespace LabiryntAUM
                 float wy2 = float.Parse(spl[3].ToString());
                 if ((x == wx1 && y == wy1) || (x == wx2 && y == wy2))
                 {
-                    MessageBox.Show("");
-                    return false;
+                    return true;
                 }
                 if (wx1 != wx2)
                 {
                     if (x == (wx2 - 1) && y == wy1)
                     {
-                        MessageBox.Show("");
-                        return false;
+                        return true;
                     }
                 }
                 if (wy1 != wy2)
                 {
                     if (x == wx1 && y == (wy2 - 1))
                     {
-                        MessageBox.Show("");
-                        return false;
+                        return true;
                     }
                 }  
             }
-            return true;
+            return false;
 
         }
 
