@@ -35,7 +35,7 @@ namespace LabiryntAUM
 
         private void btn_przejdz_Click(object sender, EventArgs e)
         {
-            lecimy();
+            lecimy(1,1,0);
         }
 
         public List<string> czytajDane()
@@ -119,27 +119,51 @@ namespace LabiryntAUM
         #endregion
 
         #region przejdz
-        public void lecimy()
+        public void lecimy(int x, int y, int r)
         {
+            while (czySciana(x, y, listaScian))
+            {
+                rysujWyjscie(x, y, r);
+                switch (r)
+                {
+                    case 0:
+                        x += 1;
+                        break;
+                    case 1:
+                        y += 1;
+                        break;
+                    case 2:
+                        x -= 1;
+                        break;
+                    case 3:
+                        y -= 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+
+
             //rysujWyjscie(0, 1, 0); // prawo
-            rysujWyjscie(1, 1, 0); // prawo
-            rysujWyjscie(2, 1, 0); // prawo
-            rysujWyjscie(3, 1, 1); // dol
-            rysujWyjscie(3, 2, 1); // dol
-            rysujWyjscie(3, 3, 2); // lewo
-            rysujWyjscie(2, 3, 2); // lewo
-            rysujWyjscie(1, 3, 1); // dol 
-            rysujWyjscie(1, 4, 1); // dol
-            rysujWyjscie(1, 5, 1); // dol
-            rysujWyjscie(1, 6, 1); // dol
-            rysujWyjscie(1, 7, 0); // prawo
-            rysujWyjscie(2, 7, 0); // prawo
-            rysujWyjscie(3, 7, 0); // prawo
-            rysujWyjscie(4, 7, 0); // prawo
-            rysujWyjscie(5, 7, 0); // prawo
-            rysujWyjscie(6, 7, 0); // prawo
-            rysujWyjscie(7, 7, 0); // prawo
-            rysujWyjscie(7, 6, 1); // test
+            //rysujWyjscie(1, 1, 0); // prawo
+            //rysujWyjscie(2, 1, 0); // prawo
+            //rysujWyjscie(3, 1, 1); // dol
+            //rysujWyjscie(3, 2, 1); // dol
+            //rysujWyjscie(3, 3, 2); // lewo
+            //rysujWyjscie(2, 3, 2); // lewo
+            //rysujWyjscie(1, 3, 1); // dol 
+            //rysujWyjscie(1, 4, 1); // dol
+            //rysujWyjscie(1, 5, 1); // dol
+            //rysujWyjscie(1, 6, 1); // dol
+            //rysujWyjscie(1, 7, 0); // prawo
+            //rysujWyjscie(2, 7, 0); // prawo
+            //rysujWyjscie(3, 7, 0); // prawo
+            //rysujWyjscie(4, 7, 0); // prawo
+            //rysujWyjscie(5, 7, 0); // prawo
+            //rysujWyjscie(6, 7, 0); // prawo
+            //rysujWyjscie(7, 7, 0); // prawo
+            //rysujWyjscie(7, 6, 1); // test
             //rysujWyjscie(3, 16, 2); // test
             //rysujWyjscie(2, 16, 1); // test
 
@@ -147,7 +171,7 @@ namespace LabiryntAUM
 
         public void rysujWyjscie(float x, float y, int ruch)
         {
-            czySciana(x, y, listaScian);
+            //czySciana(x, y, listaScian);
             Pen penGreen = new Pen(Color.Green);
             Pen penRed = new Pen(Color.Red);
             switch (ruch)
@@ -167,7 +191,7 @@ namespace LabiryntAUM
             }
         }
 
-        public void czySciana(float x, float y, List<string> ls)
+        public bool czySciana(float x, float y, List<string> ls)
         {
             List<string> ls2 = new List<string>();
             foreach (var item in ls)
@@ -195,14 +219,28 @@ namespace LabiryntAUM
                 float wx2 = float.Parse(spl[2].ToString());
                 float wy2 = float.Parse(spl[3].ToString());
                 if ((x == wx1 && y == wy1) || (x == wx2 && y == wy2))
+                {
                     MessageBox.Show("");
-                if(wx1 != wx2)
-                    if (x == (wx2- 1) && y == wy1)
+                    return false;
+                }
+                if (wx1 != wx2)
+                {
+                    if (x == (wx2 - 1) && y == wy1)
+                    {
                         MessageBox.Show("");
+                        return false;
+                    }
+                }
                 if (wy1 != wy2)
+                {
                     if (x == wx1 && y == (wy2 - 1))
+                    {
                         MessageBox.Show("");
+                        return false;
+                    }
+                }  
             }
+            return true;
 
         }
 
