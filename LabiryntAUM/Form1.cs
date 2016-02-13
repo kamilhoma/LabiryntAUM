@@ -137,7 +137,7 @@ namespace LabiryntAUM
             {
                 case 0:
                     sprRuch = 1;
-                    pointNext = new Point(visitedPionts[visitedPionts.Count-1].X, visitedPionts[visitedPionts.Count - 1].Y + 1);
+                    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y + 1);
                     break;
                 case 1:
                     sprRuch = 2;
@@ -176,16 +176,45 @@ namespace LabiryntAUM
             }
             else
             {
-                if (r == 0)
-                    r = 1;
-                else if (r == 1)
-                    r = 2;
-                else if (r == 2)
-                    r = 3;
-                else if (r == 3)
-                    r = 0;
-                lecimy(point.X, point.Y, r);
-
+                //if (r == 0)
+                //    r = 1;
+                //else if (r == 1)
+                //    r = 2;
+                //else if (r == 2)
+                //    r = 3;
+                //else if (r == 3)
+                //    r = 0;
+                //rysujWyjscie(point.X, point.Y, r);
+                //switch (r)
+                //{
+                //    case 0:
+                //        rysujWyjscie(point.X + 1, point.Y, r);
+                //        break;
+                //    case 1:
+                //        rysujWyjscie(point.X, point.Y + 1, r);
+                //        break;
+                //    case 2:
+                //        rysujWyjscie(point.X - 1, point.Y, r);
+                //        break;
+                //    case 3:
+                //        rysujWyjscie(point.X, point.Y - 1, r);
+                //        break;
+                //}
+                //switch (r)
+                //{
+                //    case 0:
+                //        lecimy(point.X + 1, point.Y, r);
+                //        break;
+                //    case 1:
+                //        lecimy(point.X, point.Y + 1, r);
+                //        break;
+                //    case 2:
+                //        lecimy(point.X - 1, point.Y, r);
+                //        break;
+                //    case 3:
+                //        lecimy(point.X, point.Y - 1, r);
+                //        break;
+                //}
 
 
 
