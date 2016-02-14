@@ -44,8 +44,11 @@ namespace LabiryntAUM
             string lina;
 
             System.IO.StreamReader file =
-                new System.IO.StreamReader(@"mazeData4x4.txt");
-           while ((lina = file.ReadLine()) != null)
+                new System.IO.StreamReader(@"mazeData16x16.txt");
+            Point koniec = new Point(8,7);
+            //Point koniec = new Point(16,15);
+
+            while ((lina = file.ReadLine()) != null)
             {
                  dane.Add(lina);
             }
@@ -72,17 +75,21 @@ namespace LabiryntAUM
             {
                 case 0:
                     drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x), skaluj(y+1));
-                    listaScian.Add(x + "," + y + "," + x + "," + ((int)(y + 1)).ToString());
+                    listaScian.Add(x*2 + "," + y*2 + "," + x*2 + "," + ((int)(y + 1)*2).ToString());
+                    //listaScian.Add(x + "," + y + "," + x + "," + ((int)(y + 1)).ToString());
                     drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x+1), skaluj(y));
-                    listaScian.Add(x + "," + y + "," + ((int)(x + 1)).ToString() + "," + y);
+                    listaScian.Add(x*2 + "," + y * 2 + "," + ((int)(x + 1) * 2).ToString() + "," + y * 2);
+                    //listaScian.Add(x + "," + y + "," + ((int)(x + 1)).ToString() + "," + y);
                     break;
                 case 1:
                     drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x), skaluj(y+1));
-                    listaScian.Add(x + "," + y + "," + x + "," + ((int)(y + 1)).ToString());
+                    listaScian.Add(x*2 + "," + y * 2 + "," + x * 2 + "," + ((int)(y + 1) * 2).ToString());
+                    //listaScian.Add(x + "," + y + "," + x + "," + ((int)(y + 1)).ToString());
                     break;
                 case 2:
                     drawArea.DrawLine(penBlack, skaluj(x), skaluj(y), skaluj(x+1), skaluj(y));
-                    listaScian.Add(x + "," + y + "," + ((int)(x + 1)).ToString() + "," + y);
+                    listaScian.Add(x*2 + "," + y * 2 + "," + ((int)(x + 1) * 2).ToString() + "," + y * 2);
+                    //listaScian.Add(x + "," + y + "," + ((int)(x + 1)).ToString() + "," + y);
                     break;
                 case 3:
                     break;
@@ -95,11 +102,36 @@ namespace LabiryntAUM
             drawArea.DrawLine(penRed, skaluj(0), skaluj(0), skaluj(0), skaluj(1));
             drawArea.DrawLine(penRed, skaluj(xmax+1), skaluj(ymax), skaluj(xmax+1), skaluj(ymax+1));
 
-            //foreach (var item in listaScian)
-            //{
-            //    Debug.WriteLine(item.ToString());
-            //}
+            Point point = new Point();
+            Point point2 = new Point();
+            foreach (var item in listaScian)
+            {
+                var split = item.Split(',');
+                int x1 = int.Parse(split[0].ToString());
+                int y1 = int.Parse(split[1].ToString());
+                int x2 = int.Parse(split[2].ToString());
+                int y2 = int.Parse(split[3].ToString());
 
+                if (x2 == x1 && y2 != y1)
+                {
+                    x = x1;
+                    y = y1 + 1;
+                }
+                point.X = x;
+                point.Y = y;
+
+                if (x2 != x1 && y2 == y1)
+                {
+                    point2.X = x1 + 1;
+                    point2.Y = y1;
+                }
+
+                
+            }
+            listaScian.Add(point.X.ToString() + "," +point.Y.ToString() + ",0,0");
+            listaScian.Add(point2.X.ToString() + "," + point2.Y.ToString() + ",0,0");
+
+            zbudujKolizje(listaScian);
             return listaScian;
             
         }
@@ -125,226 +157,263 @@ namespace LabiryntAUM
         public void lecimy(int x, int y, int r)
         {
             Point point = new Point(x, y);
-            Point pointNext = new Point(x,y);
-            int ruch = r;
-            
-            visitedPionts.Add(point);
-            odbyteRuchy.Add(r);
-            int poprzedniRuch = odbyteRuchy[odbyteRuchy.Count-1];
-            int sprRuch;
 
-            switch (poprzedniRuch)
+            if (point.X == 31 && point.Y == 31)
             {
-                case 0:
-                    sprRuch = 1;
-                    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y + 1);
-                    break;
-                case 1:
-                    sprRuch = 2;
-                    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y - 1);
-                    break;
-                case 2:
-                    sprRuch = 3;
-                    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X + 1, visitedPionts[visitedPionts.Count - 1].Y);
-                    break;
-                case 3:
-                    sprRuch = 0;
-                    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X - 1, visitedPionts[visitedPionts.Count - 1].Y);
-                    break;
+                rysujWyjscie(point.X, point.Y, 0);
+                MessageBox.Show("Koniec :)");
             }
-
-            if (czySciana(pointNext.X, pointNext.Y, listaScian))
-            {
-
-                rysujWyjscie(point.X, point.Y, r);
-
-                switch (r)
+            else {
+                //jesli po prawej, z prodzu i po lewej jest sciana - idz do tylu
+                if (sprawdzWPrawo(point, r) && sprawdzDoPrzodu(point, r) && sprawdzWLewo(point, r))
                 {
-                    case 0:
-                        lecimy(point.X + 1, point.Y, r);
-                        break;
-                    case 1:
-                        lecimy(point.X, point.Y + 1, r);
-                        break;
-                    case 2:
-                        lecimy(point.X - 1, point.Y, r);
-                        break;
-                    case 3:
-                        lecimy(point.X, point.Y - 1, r);
-                        break;
+                    switch (r)
+                    {
+                        case 0:
+                            rysujWyjscie(point.X, point.Y, 2);
+                            lecimy(point.X - 1, point.Y, 2);
+                            break;
+                        case 1:
+                            rysujWyjscie(point.X, point.Y, 3);
+                            lecimy(point.X, point.Y - 1, 3);
+                            break;
+                        case 2:
+                            rysujWyjscie(point.X, point.Y, 0);
+                            lecimy(point.X + 1, point.Y, 0);
+                            break;
+                        case 3:
+                            rysujWyjscie(point.X, point.Y, 1);
+                            lecimy(point.X, point.Y + 1, 1);
+                            break;
+                    }
+                }
+                //jesli po prawej jest sciana i z przodu jej nie ma - idz do porzodu
+                if (sprawdzWPrawo(point, r) && !sprawdzDoPrzodu(point, r))
+                {
+                    switch (r)
+                    {
+                        case 0:
+                            rysujWyjscie(point.X, point.Y, r);
+                            lecimy(point.X + 1, point.Y, r);
+                            break;
+                        case 1:
+                            rysujWyjscie(point.X, point.Y, r);
+                            lecimy(point.X, point.Y + 1, r);
+                            break;
+                        case 2:
+                            rysujWyjscie(point.X, point.Y, r);
+                            lecimy(point.X - 1, point.Y, r);
+                            break;
+                        case 3:
+                            rysujWyjscie(point.X, point.Y, r);
+                            lecimy(point.X, point.Y - 1, r);
+                            break;
+                    }
+
+                }
+
+                //jesli z prawej nie ma sciany - idz w prawo
+                if (!sprawdzWPrawo(point, r))
+                {
+                    switch (r)
+                    {
+                        case 0:
+                            rysujWyjscie(point.X, point.Y, 1);
+                            lecimy(point.X, point.Y + 1, 1);
+                            break;
+                        case 1:
+                            rysujWyjscie(point.X, point.Y, 2);
+                            lecimy(point.X - 1, point.Y, 2);
+                            break;
+                        case 2:
+                            rysujWyjscie(point.X, point.Y, 3);
+                            lecimy(point.X, point.Y - 1, 3);
+                            break;
+                        case 3:
+                            rysujWyjscie(point.X, point.Y, 0);
+                            lecimy(point.X + 1, point.Y, 0);
+                            break;
+                    }
+                }
+
+                //jesli po prawej jest sciana i z przodu jest sciana - idz w lewo
+                if (sprawdzWPrawo(point, r) && sprawdzDoPrzodu(point, r))
+                {
+                    switch (r)
+                    {
+                        case 0:
+                            rysujWyjscie(point.X, point.Y, 3);
+                            lecimy(point.X, point.Y - 1, 3);
+                            break;
+                        case 1:
+                            rysujWyjscie(point.X, point.Y, 0);
+                            lecimy(point.X + 1, point.Y, 0);
+                            break;
+                        case 2:
+                            rysujWyjscie(point.X, point.Y, 1);
+                            lecimy(point.X, point.Y + 1, 1);
+                            break;
+                        case 3:
+                            rysujWyjscie(point.X, point.Y, 2);
+                            lecimy(point.X - 1, point.Y, 2);
+                            break;
+                    }
                 }
             }
-            else
-            {
-                //if (r == 0)
-                //    r = 1;
-                //else if (r == 1)
-                //    r = 2;
-                //else if (r == 2)
-                //    r = 3;
-                //else if (r == 3)
-                //    r = 0;
-                //rysujWyjscie(point.X, point.Y, r);
-                //switch (r)
-                //{
-                //    case 0:
-                //        rysujWyjscie(point.X + 1, point.Y, r);
-                //        break;
-                //    case 1:
-                //        rysujWyjscie(point.X, point.Y + 1, r);
-                //        break;
-                //    case 2:
-                //        rysujWyjscie(point.X - 1, point.Y, r);
-                //        break;
-                //    case 3:
-                //        rysujWyjscie(point.X, point.Y - 1, r);
-                //        break;
-                //}
-                //switch (r)
-                //{
-                //    case 0:
-                //        lecimy(point.X + 1, point.Y, r);
-                //        break;
-                //    case 1:
-                //        lecimy(point.X, point.Y + 1, r);
-                //        break;
-                //    case 2:
-                //        lecimy(point.X - 1, point.Y, r);
-                //        break;
-                //    case 3:
-                //        lecimy(point.X, point.Y - 1, r);
-                //        break;
-                //}
 
+            #region spierdolina
+            //Point point = new Point(x, y);
+            //Point pointNext = new Point(x,y);
+            //int ruch = r;
 
+            //visitedPionts.Add(point);
+            //odbyteRuchy.Add(r);
+            //int poprzedniRuch = odbyteRuchy[odbyteRuchy.Count-1];
 
-                //visitedPionts.Add(point);
-
-                //if (r != 3)
-                //    odbyteRuchy.Add(r + 1);
-                //else
-                //    odbyteRuchy.Add(0);
-                //lecimy(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y, odbyteRuchy[odbyteRuchy.Count - 1]);
-                //lecimy(point.X, point.Y, odbyteRuchy[odbyteRuchy.Count - 1]);
-            }
-
-            
-
-            //Point pointPrev = new Point();
-            //Point point = new Point();
-            //int poprzedniRuch = r;
-
-            //point.X = x;
-            //point.Y = y;
-
-            //while (!czySciana(point.X, point.Y, listaScian))
+            //switch (poprzedniRuch)
             //{
+            //    //case 0:
+            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y + 1);
+            //    //    break;
+            //    //case 1:
+            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y - 1);
+            //    //    break;
+            //    //case 2:
+            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X + 1, visitedPionts[visitedPionts.Count - 1].Y);
+            //    //    break;
+            //    //case 3:
+            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X - 1, visitedPionts[visitedPionts.Count - 1].Y);
+            //    //    break;
+            //}
+
+            //if (czySciana(pointNext.X, pointNext.Y, listaScian))
+            //{
+
             //    rysujWyjscie(point.X, point.Y, r);
-            //    ruch.Add(r);
-            //    visitedPionts.Add(point);
 
             //    switch (r)
             //    {
             //        case 0:
             //            point.X += 1;
+            //            //rysujWyjscie(point.X + 1, point.Y, r);
             //            break;
             //        case 1:
             //            point.Y += 1;
+            //            //rysujWyjscie(point.X, point.Y + 1, r);
             //            break;
             //        case 2:
             //            point.X -= 1;
+            //            //rysujWyjscie(point.X - 1, point.Y, r);
             //            break;
             //        case 3:
             //            point.Y -= 1;
+            //            //rysujWyjscie(point.X, point.Y - 1, r);
             //            break;
-            //        default:
+            //    }
+            //    visitedPionts.Add(point);
+            //}
+            //else
+            //{
+            //    switch (r)
+            //    {
+            //        case 0:
+            //            r = 1;
+            //            break;
+            //        case 1:
+            //            r = 2;
+            //            break;
+            //        case 2:
+            //            r = 3;
+            //            break;
+            //        case 3:
+            //            r = 0;
             //            break;
             //    }
             //}
-            //pointPrev = visitedPionts[visitedPionts.Count - 1];
-            //poprzedniRuch = ruch[visitedPionts.Count - 1];
-            //int nRuch = 0;
-            //List<int> mozliweRuchy = new List<int>();
-            //mozliweRuchy.Add(0);
-            //mozliweRuchy.Add(1);
-            //mozliweRuchy.Add(2);
-            //mozliweRuchy.Add(3);
-            //List<int> mr = new List<int>();
-            //foreach (var item in mozliweRuchy)
-            //{
-            //    if (poprzedniRuch != item)
-            //        nRuch = item;
-            //}
-            //lecimy(pointPrev.X, pointPrev.Y, nRuch);
-            
 
-                //    int poprzedniRuch = r;
-                //    while (!czySciana(x, y, listaScian))
-                //    {
-                //        rysujWyjscie(x, y, r);
-
-                //        switch (r)
-                //        {
-                //            case 0:
-                //                x += 1;
-                //                break;
-                //            case 1:
-                //                y += 1;   
-                //                break;
-                //            case 2:
-                //                x -= 1;
-                //                break;
-                //            case 3:
-                //                y -= 1;
-                //                break;
-                //            default:
-                //                break;
-                //        }
-                //    }
-
-                //    switch (poprzedniRuch)
-                //    {
-                //        case 0:
-                //            lecimy(x - 1, y, 1);
-                //            break;
-                //        case 1:
-                //            lecimy(x, y - 1, 2);
-                //            break;
-                //        case 2:
-                //            lecimy(x + 1, y, 3);
-                //            break;
-                //        case 3:
-                //            lecimy(x, y + 1, 0);
-                //            break;
-                //        default:
-                //            break;
-                //    }
-
-
-
-                //rysujWyjscie(0, 1, 0); // prawo
-                //rysujWyjscie(1, 1, 0); // prawo
-                //rysujWyjscie(2, 1, 0); // prawo
-                //rysujWyjscie(3, 1, 1); // dol
-                //rysujWyjscie(3, 2, 1); // dol
-                //rysujWyjscie(3, 3, 2); // lewo
-                //rysujWyjscie(2, 3, 2); // lewo
-                //rysujWyjscie(1, 3, 1); // dol 
-                //rysujWyjscie(1, 4, 1); // dol
-                //rysujWyjscie(1, 5, 1); // dol
-                //rysujWyjscie(1, 6, 1); // dol
-                //rysujWyjscie(1, 7, 0); // prawo
-                //rysujWyjscie(2, 7, 0); // prawo
-                //rysujWyjscie(3, 7, 0); // prawo
-                //rysujWyjscie(4, 7, 0); // prawo
-                //rysujWyjscie(5, 7, 0); // prawo
-                //rysujWyjscie(6, 7, 0); // prawo
-                //rysujWyjscie(7, 7, 0); // prawo
-                //rysujWyjscie(7, 6, 1); // test
-                //rysujWyjscie(3, 16, 2); // test
-                //rysujWyjscie(2, 16, 1); // test
-
+            //lecimy(point.X, point.Y, r);
+            #endregion
+        }
+        //sprawdz czy po lewej jest sciana
+        public bool sprawdzWLewo(Point point, int ruch)
+        {
+            switch (ruch)
+            {
+                case 0:
+                    point.Y -= 1;
+                    break;
+                case 1:
+                    point.X += 1;
+                    break;
+                case 2:
+                    point.Y += 1;
+                    break;
+                case 3:
+                    point.X -= 1;
+                    break;
             }
+            if (czySciana(point.X, point.Y, zbudujKolizje(listaScian)))
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        //sprawdz czy po prawej stronie jest sciana
+        public bool sprawdzWPrawo(Point point, int ruch)
+        {
+            switch (ruch)
+            {
+                case 0:
+                    point.Y += 1;
+                    break;
+                case 1:
+                    point.X -= 1;
+                    break;
+                case 2:
+                    point.Y -= 1;
+                    break;
+                case 3:
+                    point.X += 1;
+                    break;
+            }
+            if (czySciana(point.X, point.Y, zbudujKolizje(listaScian)))
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        //sprawdz czy z przodu jest sciana
+        public bool sprawdzDoPrzodu(Point point, int ruch)
+        {
+            switch (ruch)
+            {
+                case 0:
+                    point.X += 1;
+                    break;
+                case 1:
+                    point.Y +=1 ;
+                    break;
+                case 2:
+                    point.X -= 1;
+                    break;
+                case 3:
+                    point.Y -= 1;
+                    break;
+            }
+            if (czySciana(point.X, point.Y, zbudujKolizje(listaScian)))
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
         public void rysujWyjscie(float x, float y, int ruch)
         {
@@ -369,47 +438,106 @@ namespace LabiryntAUM
             }
         }
 
-        public bool czySciana(float x, float y, List<string> ls)
+        public bool czySciana(float x, float y, List<Point> lp)
         {
-            List<string> ls2 = new List<string>();
-            foreach (var item in ls)
+            foreach (var item in lp)
             {
-                var spl = item.Split(',');
-                float wx1 = float.Parse(spl[0].ToString());
-                float wy1 = float.Parse(spl[1].ToString());
-                float wx2 = float.Parse(spl[2].ToString());
-                float wy2 = float.Parse(spl[3].ToString());
-                ls2.Add((wx1 * 2).ToString() + " " + (wy1 * 2).ToString() + " " + (wx2 * 2).ToString() + " " + (wy2 * 2).ToString());
-            }
-            
-            foreach (var item in ls2)
-            {
-                var spl = item.Split(' ');
-                float wx1 = float.Parse(spl[0].ToString());
-                float wy1 = float.Parse(spl[1].ToString());
-                float wx2 = float.Parse(spl[2].ToString());
-                float wy2 = float.Parse(spl[3].ToString());
-                if ((x == wx1 && y == wy1) || (x == wx2 && y == wy2))
-                {
+                if (item.X == x && item.Y == y)
                     return true;
-                }
-                if (wx1 != wx2)
-                {
-                    if (x == (wx2 - 1) && y == wy1)
-                    {
-                        return true;
-                    }
-                }
-                if (wy1 != wy2)
-                {
-                    if (x == wx1 && y == (wy2 - 1))
-                    {
-                        return true;
-                    }
-                }  
             }
             return false;
+        }
 
+        //public bool czySciana(float x, float y, List<string> ls)
+        //{
+        //    List<string> ls2 = new List<string>();
+
+        //    for (int i = 0; i <=8 ; i++)
+        //    {
+        //        ls2.Add(0.ToString() + " " + i.ToString() + " " + 0.ToString() + " " + i.ToString());
+        //        ls2.Add(8.ToString() + " " + i.ToString() + " " + 8.ToString() + " " + i.ToString());
+        //        ls2.Add(i.ToString() + " " + 0.ToString() + " " + i.ToString() + " " + 0.ToString());
+        //        ls2.Add(i.ToString() + " " + 8.ToString() + " " + i.ToString() + " " + 8.ToString());
+        //    }
+
+        //    foreach (var item in ls)
+        //    {
+        //        var spl = item.Split(',');
+        //        float wx1 = float.Parse(spl[0].ToString());
+        //        float wy1 = float.Parse(spl[1].ToString());
+        //        float wx2 = float.Parse(spl[2].ToString());
+        //        float wy2 = float.Parse(spl[3].ToString());
+        //        ls2.Add((wx1 * 2).ToString() + " " + (wy1 * 2).ToString() + " " + (wx2 * 2).ToString() + " " + (wy2 * 2).ToString());
+        //    }
+            
+        //    foreach (var item in ls2)
+        //    {
+        //        var spl = item.Split(' ');
+        //        float wx1 = float.Parse(spl[0].ToString());
+        //        float wy1 = float.Parse(spl[1].ToString());
+        //        float wx2 = float.Parse(spl[2].ToString());
+        //        float wy2 = float.Parse(spl[3].ToString());
+        //        if ((x == wx1 && y == wy1) || (x == wx2 && y == wy2))
+        //        {
+        //            return true;
+        //        }
+        //        if (wx1 != wx2)
+        //        {
+        //            if (x == (wx2 - 1) && y == wy1)
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //        if (wy1 != wy2)
+        //        {
+        //            if (x == wx1 && y == (wy2 - 1))
+        //            {
+        //                return true;
+        //            }
+        //        }  
+        //    }
+        //    return false;
+
+        //}
+
+        public List<Point> zbudujKolizje(List<string> listaScian)
+        {
+            List<Point> punktyKolizyjne = new List<Point>();
+
+            foreach (var item in listaScian)
+            {
+                var spl = item.Split(',');
+                float wx1 = float.Parse(spl[0]);
+                float wy1 = float.Parse(spl[1]);
+                float wx2 = float.Parse(spl[2]);
+                float wy2 = float.Parse(spl[3]);
+                Point point1 = new Point((int)wx1, (int)wy1);
+                Point point2 = new Point((int)wx2, (int)wy2);
+
+                punktyKolizyjne.Add(point1);
+                punktyKolizyjne.Add(point2);
+            }
+
+            Point p1 = new Point();
+            Point p2 = new Point();
+            Point p3 = new Point();
+            Point p4 = new Point();
+            for (int i = 0; i <= 32; i++)
+            {
+                p1.X = 0;
+                p1.Y = i;
+                p2.X = i;
+                p2.Y = 0;
+                p3.X = 32;
+                p3.Y = i;
+                p4.X = i;
+                p4.Y = 32;
+                punktyKolizyjne.Add(p1);
+                punktyKolizyjne.Add(p2);
+                punktyKolizyjne.Add(p3);
+                punktyKolizyjne.Add(p4);
+            }
+            return punktyKolizyjne;
         }
 
         #endregion
