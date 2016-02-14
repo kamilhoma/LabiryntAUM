@@ -162,6 +162,7 @@ namespace LabiryntAUM
             {
                 rysujWyjscie(point.X, point.Y, 0);
                 MessageBox.Show("Koniec :)");
+                Environment.Exit(0);
             }
             else {
                 //jesli po prawej, z prodzu i po lewej jest sciana - idz do tylu
@@ -260,79 +261,6 @@ namespace LabiryntAUM
                     }
                 }
             }
-
-            #region spierdolina
-            //Point point = new Point(x, y);
-            //Point pointNext = new Point(x,y);
-            //int ruch = r;
-
-            //visitedPionts.Add(point);
-            //odbyteRuchy.Add(r);
-            //int poprzedniRuch = odbyteRuchy[odbyteRuchy.Count-1];
-
-            //switch (poprzedniRuch)
-            //{
-            //    //case 0:
-            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y + 1);
-            //    //    break;
-            //    //case 1:
-            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X, visitedPionts[visitedPionts.Count - 1].Y - 1);
-            //    //    break;
-            //    //case 2:
-            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X + 1, visitedPionts[visitedPionts.Count - 1].Y);
-            //    //    break;
-            //    //case 3:
-            //    //    pointNext = new Point(visitedPionts[visitedPionts.Count - 1].X - 1, visitedPionts[visitedPionts.Count - 1].Y);
-            //    //    break;
-            //}
-
-            //if (czySciana(pointNext.X, pointNext.Y, listaScian))
-            //{
-
-            //    rysujWyjscie(point.X, point.Y, r);
-
-            //    switch (r)
-            //    {
-            //        case 0:
-            //            point.X += 1;
-            //            //rysujWyjscie(point.X + 1, point.Y, r);
-            //            break;
-            //        case 1:
-            //            point.Y += 1;
-            //            //rysujWyjscie(point.X, point.Y + 1, r);
-            //            break;
-            //        case 2:
-            //            point.X -= 1;
-            //            //rysujWyjscie(point.X - 1, point.Y, r);
-            //            break;
-            //        case 3:
-            //            point.Y -= 1;
-            //            //rysujWyjscie(point.X, point.Y - 1, r);
-            //            break;
-            //    }
-            //    visitedPionts.Add(point);
-            //}
-            //else
-            //{
-            //    switch (r)
-            //    {
-            //        case 0:
-            //            r = 1;
-            //            break;
-            //        case 1:
-            //            r = 2;
-            //            break;
-            //        case 2:
-            //            r = 3;
-            //            break;
-            //        case 3:
-            //            r = 0;
-            //            break;
-            //    }
-            //}
-
-            //lecimy(point.X, point.Y, r);
-            #endregion
         }
         //sprawdz czy po lewej jest sciana
         public bool sprawdzWLewo(Point point, int ruch)
@@ -447,58 +375,6 @@ namespace LabiryntAUM
             }
             return false;
         }
-
-        //public bool czySciana(float x, float y, List<string> ls)
-        //{
-        //    List<string> ls2 = new List<string>();
-
-        //    for (int i = 0; i <=8 ; i++)
-        //    {
-        //        ls2.Add(0.ToString() + " " + i.ToString() + " " + 0.ToString() + " " + i.ToString());
-        //        ls2.Add(8.ToString() + " " + i.ToString() + " " + 8.ToString() + " " + i.ToString());
-        //        ls2.Add(i.ToString() + " " + 0.ToString() + " " + i.ToString() + " " + 0.ToString());
-        //        ls2.Add(i.ToString() + " " + 8.ToString() + " " + i.ToString() + " " + 8.ToString());
-        //    }
-
-        //    foreach (var item in ls)
-        //    {
-        //        var spl = item.Split(',');
-        //        float wx1 = float.Parse(spl[0].ToString());
-        //        float wy1 = float.Parse(spl[1].ToString());
-        //        float wx2 = float.Parse(spl[2].ToString());
-        //        float wy2 = float.Parse(spl[3].ToString());
-        //        ls2.Add((wx1 * 2).ToString() + " " + (wy1 * 2).ToString() + " " + (wx2 * 2).ToString() + " " + (wy2 * 2).ToString());
-        //    }
-            
-        //    foreach (var item in ls2)
-        //    {
-        //        var spl = item.Split(' ');
-        //        float wx1 = float.Parse(spl[0].ToString());
-        //        float wy1 = float.Parse(spl[1].ToString());
-        //        float wx2 = float.Parse(spl[2].ToString());
-        //        float wy2 = float.Parse(spl[3].ToString());
-        //        if ((x == wx1 && y == wy1) || (x == wx2 && y == wy2))
-        //        {
-        //            return true;
-        //        }
-        //        if (wx1 != wx2)
-        //        {
-        //            if (x == (wx2 - 1) && y == wy1)
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //        if (wy1 != wy2)
-        //        {
-        //            if (x == wx1 && y == (wy2 - 1))
-        //            {
-        //                return true;
-        //            }
-        //        }  
-        //    }
-        //    return false;
-
-        //}
 
         public List<Point> zbudujKolizje(List<string> listaScian)
         {
