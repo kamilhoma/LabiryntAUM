@@ -149,9 +149,48 @@ namespace LabiryntAUM
             x = (x * s) / 2;
             return x;
         }
+
+        public List<Point> zbudujKolizje(List<string> listaScian)
+        {
+            List<Point> punktyKolizyjne = new List<Point>();
+
+            foreach (var item in listaScian)
+            {
+                var spl = item.Split(',');
+                float wx1 = float.Parse(spl[0]);
+                float wy1 = float.Parse(spl[1]);
+                float wx2 = float.Parse(spl[2]);
+                float wy2 = float.Parse(spl[3]);
+                Point point1 = new Point((int)wx1, (int)wy1);
+                Point point2 = new Point((int)wx2, (int)wy2);
+
+                punktyKolizyjne.Add(point1);
+                punktyKolizyjne.Add(point2);
+            }
+
+            Point p1 = new Point();
+            Point p2 = new Point();
+            Point p3 = new Point();
+            Point p4 = new Point();
+            for (int i = 0; i <= 32; i++)
+            {
+                p1.X = 0;
+                p1.Y = i;
+                p2.X = i;
+                p2.Y = 0;
+                p3.X = 32;
+                p3.Y = i;
+                p4.X = i;
+                p4.Y = 32;
+                punktyKolizyjne.Add(p1);
+                punktyKolizyjne.Add(p2);
+                punktyKolizyjne.Add(p3);
+                punktyKolizyjne.Add(p4);
+            }
+            return punktyKolizyjne;
+        }
+
         #endregion
-        List<Point> visitedPionts = new List<Point>();
-        List<int> odbyteRuchy = new List<int>();
 
         #region przejdz
         public void lecimy(int x, int y, int r)
@@ -375,47 +414,6 @@ namespace LabiryntAUM
             }
             return false;
         }
-
-        public List<Point> zbudujKolizje(List<string> listaScian)
-        {
-            List<Point> punktyKolizyjne = new List<Point>();
-
-            foreach (var item in listaScian)
-            {
-                var spl = item.Split(',');
-                float wx1 = float.Parse(spl[0]);
-                float wy1 = float.Parse(spl[1]);
-                float wx2 = float.Parse(spl[2]);
-                float wy2 = float.Parse(spl[3]);
-                Point point1 = new Point((int)wx1, (int)wy1);
-                Point point2 = new Point((int)wx2, (int)wy2);
-
-                punktyKolizyjne.Add(point1);
-                punktyKolizyjne.Add(point2);
-            }
-
-            Point p1 = new Point();
-            Point p2 = new Point();
-            Point p3 = new Point();
-            Point p4 = new Point();
-            for (int i = 0; i <= 32; i++)
-            {
-                p1.X = 0;
-                p1.Y = i;
-                p2.X = i;
-                p2.Y = 0;
-                p3.X = 32;
-                p3.Y = i;
-                p4.X = i;
-                p4.Y = 32;
-                punktyKolizyjne.Add(p1);
-                punktyKolizyjne.Add(p2);
-                punktyKolizyjne.Add(p3);
-                punktyKolizyjne.Add(p4);
-            }
-            return punktyKolizyjne;
-        }
-
         #endregion
     }
 }
