@@ -7,3 +7,12 @@ D:\projekty\Repos\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.csproj.GenerateR
 D:\projekty\Repos\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.exe
 D:\projekty\Repos\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.pdb
 D:\projekty\Repos\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.Form1.resources
+D:\VS Projects\LabiryntAUM\LabiryntAUM\bin\Debug\LabiryntAUM.exe.config
+D:\VS Projects\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.exe
+D:\VS Projects\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.pdb
+D:\VS Projects\LabiryntAUM\LabiryntAUM\bin\Debug\LabiryntAUM.exe
+D:\VS Projects\LabiryntAUM\LabiryntAUM\bin\Debug\LabiryntAUM.pdb
+D:\VS Projects\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.csprojResolveAssemblyReference.cache
+D:\VS Projects\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.Form1.resources
+D:\VS Projects\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.Properties.Resources.resources
+D:\VS Projects\LabiryntAUM\LabiryntAUM\obj\Debug\LabiryntAUM.csproj.GenerateResource.Cache

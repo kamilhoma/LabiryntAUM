@@ -35,7 +35,7 @@ namespace LabiryntAUM
 
         private void btn_przejdz_Click(object sender, EventArgs e)
         {
-            lecimy(1,1,0);
+            przejdz(1,1,0);
         }
 
         public List<string> czytajDane()
@@ -193,7 +193,7 @@ namespace LabiryntAUM
         #endregion
 
         #region przejdz
-        public void lecimy(int x, int y, int r)
+        public void przejdz(int x, int y, int r)
         {
             Point point = new Point(x, y);
 
@@ -204,26 +204,26 @@ namespace LabiryntAUM
                 Environment.Exit(0);
             }
             else {
-                //jesli po prawej, z prodzu i po lewej jest sciana - idz do tylu
+                //jesli po prawej, z przodu i po lewej jest sciana - idz do tylu
                 if (sprawdzWPrawo(point, r) && sprawdzDoPrzodu(point, r) && sprawdzWLewo(point, r))
                 {
                     switch (r)
                     {
                         case 0:
                             rysujWyjscie(point.X, point.Y, 2);
-                            lecimy(point.X - 1, point.Y, 2);
+                            przejdz(point.X - 1, point.Y, 2);
                             break;
                         case 1:
                             rysujWyjscie(point.X, point.Y, 3);
-                            lecimy(point.X, point.Y - 1, 3);
+                            przejdz(point.X, point.Y - 1, 3);
                             break;
                         case 2:
                             rysujWyjscie(point.X, point.Y, 0);
-                            lecimy(point.X + 1, point.Y, 0);
+                            przejdz(point.X + 1, point.Y, 0);
                             break;
                         case 3:
                             rysujWyjscie(point.X, point.Y, 1);
-                            lecimy(point.X, point.Y + 1, 1);
+                            przejdz(point.X, point.Y + 1, 1);
                             break;
                     }
                 }
@@ -234,19 +234,19 @@ namespace LabiryntAUM
                     {
                         case 0:
                             rysujWyjscie(point.X, point.Y, r);
-                            lecimy(point.X + 1, point.Y, r);
+                            przejdz(point.X + 1, point.Y, r);
                             break;
                         case 1:
                             rysujWyjscie(point.X, point.Y, r);
-                            lecimy(point.X, point.Y + 1, r);
+                            przejdz(point.X, point.Y + 1, r);
                             break;
                         case 2:
                             rysujWyjscie(point.X, point.Y, r);
-                            lecimy(point.X - 1, point.Y, r);
+                            przejdz(point.X - 1, point.Y, r);
                             break;
                         case 3:
                             rysujWyjscie(point.X, point.Y, r);
-                            lecimy(point.X, point.Y - 1, r);
+                            przejdz(point.X, point.Y - 1, r);
                             break;
                     }
 
@@ -259,19 +259,19 @@ namespace LabiryntAUM
                     {
                         case 0:
                             rysujWyjscie(point.X, point.Y, 1);
-                            lecimy(point.X, point.Y + 1, 1);
+                            przejdz(point.X, point.Y + 1, 1);
                             break;
                         case 1:
                             rysujWyjscie(point.X, point.Y, 2);
-                            lecimy(point.X - 1, point.Y, 2);
+                            przejdz(point.X - 1, point.Y, 2);
                             break;
                         case 2:
                             rysujWyjscie(point.X, point.Y, 3);
-                            lecimy(point.X, point.Y - 1, 3);
+                            przejdz(point.X, point.Y - 1, 3);
                             break;
                         case 3:
                             rysujWyjscie(point.X, point.Y, 0);
-                            lecimy(point.X + 1, point.Y, 0);
+                            przejdz(point.X + 1, point.Y, 0);
                             break;
                     }
                 }
@@ -283,24 +283,25 @@ namespace LabiryntAUM
                     {
                         case 0:
                             rysujWyjscie(point.X, point.Y, 3);
-                            lecimy(point.X, point.Y - 1, 3);
+                            przejdz(point.X, point.Y - 1, 3);
                             break;
                         case 1:
                             rysujWyjscie(point.X, point.Y, 0);
-                            lecimy(point.X + 1, point.Y, 0);
+                            przejdz(point.X + 1, point.Y, 0);
                             break;
                         case 2:
                             rysujWyjscie(point.X, point.Y, 1);
-                            lecimy(point.X, point.Y + 1, 1);
+                            przejdz(point.X, point.Y + 1, 1);
                             break;
                         case 3:
                             rysujWyjscie(point.X, point.Y, 2);
-                            lecimy(point.X - 1, point.Y, 2);
+                            przejdz(point.X - 1, point.Y, 2);
                             break;
                     }
                 }
             }
         }
+
         //sprawdz czy po lewej jest sciana
         public bool sprawdzWLewo(Point point, int ruch)
         {
